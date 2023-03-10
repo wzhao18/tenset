@@ -10,6 +10,8 @@ import glob
 import pickle
 import random
 
+import os
+
 from tqdm import tqdm
 import tvm
 from tvm import auto_scheduler
@@ -140,6 +142,12 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     random.seed(args.seed)
+
+    # I could not get VS code debugger to work with "*" argument
+    # So I have to manually read all files from the directory
+    import glob
+    if len(args.logs) == 1:
+        args.logs = glob.glob(args.logs[0])
 
     files = []
     if args.hold_out or args.n_task:
