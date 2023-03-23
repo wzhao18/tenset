@@ -40,9 +40,11 @@ ENV PYTHONPATH=$TVM_HOME/python:${PYTHONPATH}
 
 RUN pip3 install \
         tqdm \
-        numpy \
+        numpy==1.23.4 \
         decorator \
         torch==1.7.0 \
         torchvision==0.8.1 \
         scipy \
-        attrs
+        attrs \
+        matplotlib \
+        psutil
