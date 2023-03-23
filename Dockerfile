@@ -8,6 +8,7 @@ RUN apt-get update -y && \
         python3 \
         python3-dev \
         python3-setuptools \
+        python3-pip \
         gcc \
         libtinfo-dev \
         zlib1g-dev \
@@ -22,14 +23,26 @@ RUN apt-get update -y && \
 RUN cd /home && \
     wget https://apt.llvm.org/llvm.sh && \
     chmod +x llvm.sh && \
-    ./llvm.sh 15
+    ./llvm.sh 12
 
 COPY . /home/tvm
 
 RUN cd /home/tvm && \
     mkdir build && \
-    cp config.cmake build && \
+    cp cmake/config.cmake build && \
     cd build && \
     cmake .. && \
-    make -j4
+    make -j
 
+ENV TVM_LIBRARY_PATH=/home/tvm/build
+ENV TVM_HOME=/home/tvm
+ENV PYTHONPATH=$TVM_HOME/python:${PYTHONPATH}
+
+RUN pip3 install \
+        tqdm \
+        numpy \
+        decorator \
+        torch==1.7.0 \
+        torchvision==0.8.1 \
+        scipy \
+        attrs

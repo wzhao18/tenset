@@ -207,7 +207,7 @@ class Dataset:
         return sum(len(x) for x in self.throughputs.values())
 
 
-def make_dataset_from_log_file(log_files, out_file, min_sample_size, verbose=1):
+def make_dataset_from_log_file(log_files, out_file, min_sample_size, verbose=-1):
     """Make a dataset file from raw log files"""
     from tqdm import tqdm
 
@@ -254,8 +254,8 @@ def make_dataset_from_log_file(log_files, out_file, min_sample_size, verbose=1):
                 min_latency[task] = min_latency_[0]
             pickle.dump((features, throughputs, min_latency), open(cache_file, "wb"))
 
-        # From reading the code, I feel like each file only contains records for 1 task
-        assert(len(features) == 1)
+        # From reading the code, I feel like each file contains records for at most 1 task
+        assert(len(features) <= 1)
 
         for task in features:
             dataset.load_task_data(task, features[task], throughputs[task], min_latency[task])

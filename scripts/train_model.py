@@ -140,6 +140,7 @@ if __name__ == "__main__":
     parser.add_argument("--dataset", nargs="+", type=str, default=["dataset.pkl"])
     parser.add_argument("--models", type=str, default="xgb")
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--dataset-path", type=str, default="./dataset_cpu")
     parser.add_argument(
         "--split-scheme",
         type=str,
@@ -161,7 +162,7 @@ if __name__ == "__main__":
     logging.getLogger("auto_scheduler").setLevel(logging.DEBUG)
 
     print("Load all tasks...")
-    load_and_register_tasks()
+    load_and_register_tasks(args.dataset_path)
 
     print("Load dataset...")
     dataset = pickle.load(open(args.dataset[0], "rb"))

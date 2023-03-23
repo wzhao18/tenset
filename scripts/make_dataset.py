@@ -54,6 +54,7 @@ def get_hold_out_task(target, network=None):
         task_info_filename = get_task_info_filename(network_key, target)
         tasks, _ = pickle.load(open(task_info_filename, "rb"))
         for task in tasks:
+            print(type(task))
             if task.workload_key not in exists:
                 exists.add(task.workload_key)
 
@@ -138,6 +139,7 @@ if __name__ == "__main__":
     parser.add_argument("--preset", type=str, choices=['batch-size-1'])
     parser.add_argument("--n-task", type=int)
     parser.add_argument("--n-measurement", type=int)
+    parser.add_argument("--dataset-path", type=str, default="./dataset_cpu")
 
     args = parser.parse_args()
 
@@ -202,7 +204,7 @@ if __name__ == "__main__":
     else:
         # use all tasks
         print("Load tasks...")
-        load_and_register_tasks()
+        load_and_register_tasks(args.dataset_path)
         files = args.logs
 
     if args.sample_in_files:
