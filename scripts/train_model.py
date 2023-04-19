@@ -4,6 +4,7 @@ import argparse
 import logging
 import pickle
 import random
+import time
 
 import torch
 import numpy as np
@@ -32,7 +33,12 @@ from tvm.auto_scheduler.cost_model.metric import (
 
 def evaluate_model(model, test_set):
     # make prediction
+    start = time.time()
     prediction = model.predict(test_set)
+    end = time.time()
+    print(test_set.shape)
+    print("???")
+    print(end - start)
 
     # compute weighted average of metrics over all tasks
     tasks = list(test_set.tasks())

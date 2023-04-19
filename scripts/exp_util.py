@@ -1,6 +1,7 @@
 from tqdm import tqdm
 import pickle
 import os
+import time
 
 from common import (get_task_info_filename)
 from train_model import (evaluate_model, make_model)
@@ -40,8 +41,8 @@ def train(train_set, valid_set, hardware, model_names, use_gpu):
             print(f"{model_filename} already exists. Skip training")
         else:
             model.fit_base(train_set, valid_set=valid_set)
-            # print("Saving model to %s" % model_filename)
-            # model.save(model_filename)
+            print("Saving model to %s" % model_filename)
+            model.save(model_filename)
 
     return models
 
@@ -51,10 +52,16 @@ def eval(testset, model_names, models):
     names = model_names.split("@")
 
     eval_results = []
+    start = time.time()
     for name, model in zip(names, models):
         eval_res = evaluate_model(model, testset)
         print(name, to_str_round(eval_res))
         eval_results.append(eval_res)
+    
+
+    end = time.time()
+    print("????")
+    print(end - start)
 
     # Print evaluation results
     for i in range(len(models)):

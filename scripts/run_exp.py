@@ -1,6 +1,7 @@
 import pickle
 from tqdm import tqdm
 import os
+import time
 
 from common import (load_and_register_tasks, get_task_info_filename,
                     get_measure_record_filename)
@@ -100,7 +101,9 @@ def main():
 
         test_testset = auto_scheduler.dataset.make_test_dataset_from_log_file(
                             test_files, test_dataset_filename, 10)
+
         eval(test_testset, model_names, models)
+
 
         # ======================== End Evaluation =================================
 
